@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="newsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="cat">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="30" Nullable="false" />
+  </EntityType>
+  <EntityType Name="content">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="title" Type="ntext" Nullable="false" />
+    <Property Name="textCont" Type="ntext" Nullable="false" />
+    <Property Name="postDate" Type="date" Nullable="false" />
+    <Property Name="category_id" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="content_to_cat">
+    <End Role="cat" Type="Self.cat" Multiplicity="1" />
+    <End Role="content" Type="Self.content" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="cat">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="content">
+        <PropertyRef Name="category_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="newsModelStoreContainer">
+    <EntitySet Name="cat" EntityType="Self.cat" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="content" EntityType="Self.content" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="content_to_cat" Association="Self.content_to_cat">
+      <End Role="cat" EntitySet="cat" />
+      <End Role="content" EntitySet="content" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

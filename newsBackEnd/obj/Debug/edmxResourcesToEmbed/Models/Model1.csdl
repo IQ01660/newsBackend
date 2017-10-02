@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="newsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="cat">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="contents" Relationship="Self.content_to_cat" FromRole="cat" ToRole="content" />
+  </EntityType>
+  <EntityType Name="content">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="textCont" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="postDate" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="category_id" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="cat" Relationship="Self.content_to_cat" FromRole="content" ToRole="cat" />
+  </EntityType>
+  <Association Name="content_to_cat">
+    <End Role="cat" Type="Self.cat" Multiplicity="1" />
+    <End Role="content" Type="Self.content" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="cat">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="content">
+        <PropertyRef Name="category_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="newsEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="cats" EntityType="Self.cat" />
+    <EntitySet Name="contents" EntityType="Self.content" />
+    <AssociationSet Name="content_to_cat" Association="Self.content_to_cat">
+      <End Role="cat" EntitySet="cats" />
+      <End Role="content" EntitySet="contents" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

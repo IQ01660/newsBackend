@@ -1,0 +1,43 @@
+﻿@model IEnumerable<newsBackEnd.Models.content>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h1>Main News</h1>
+<table class="col-lg-5">
+    @foreach (var news in Model)
+    {
+        <tr>
+            <td>
+                <table class="table table-striped ">
+                    <tr>
+                       <h2>@news.title</h2>
+                    </tr>
+                    <br/>
+                    <tr>@news.postDate</tr>
+                    
+                    <hr/>
+                    <tr>@news.textCont</tr>
+                    <tr>
+                        <td><button class="btn btn-danger">Read More</button></td>
+                    </tr>
+                </table>
+            <td>
+        </tr>
+    }
+    <tr>
+    <tr>
+</table>
+<table class="col-lg-3 top-right">
+    <thead>
+        <h3>Categories</h3>
+    </thead>
+    @foreach (var cat in ViewBag.allCatsList)
+    {
+        <tr>
+            <td>@cat.name</td>
+        </tr>
+    }
+</table>
+
